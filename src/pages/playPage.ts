@@ -81,6 +81,7 @@ export function initPlayPage() {
 
 				$btn.addEventListener("click", (e) => {
 					location.reload();
+					Router.go("/tateti/");
 				});
 			};
 
