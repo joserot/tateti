@@ -1,5 +1,4 @@
 import "./router";
-import { state } from "./state";
 // Components
 import { initButton } from "./components/Button";
 import { initText } from "./components/Text";
@@ -12,8 +11,6 @@ import { initConfigPage } from "./pages/configPage";
 import { initPlayPage } from "./pages/playPage";
 
 const initApp = (params: Element | null) => {
-	//State
-	state.initState();
 	// Pages
 	initWelcomePage();
 	initConfigPage();

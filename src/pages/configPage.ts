@@ -137,6 +137,8 @@ export function initConfigPage() {
 
 			/********************FUNCTIONS *************************/
 
+			state.resetState();
+
 			// Cambia el estado, dando como ultima jugada al simbolo contrario del seleccionado
 			const changeSimbol = () => {
 				const $inputsRadio = div.querySelectorAll("[name=play]");

@@ -21,6 +21,17 @@ export const state = {
 			? (this.lastPlay = localStorage.getItem("lastPlay"))
 			: (this.lastPlay = "circulo");
 	},
+	resetState() {
+		this.color = "#000";
+		this.lastPlay = "circulo";
+		this.lastWin = "";
+		state.setState({
+			currentGame: {
+				circlePos: [],
+				xPos: [],
+			},
+		});
+	},
 	getState() {
 		return this.data;
 	},

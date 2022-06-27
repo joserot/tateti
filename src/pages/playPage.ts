@@ -1,5 +1,7 @@
 import { Router } from "@vaadin/router";
 import { state } from "../state";
+import { initGrid } from "../components/Grid";
+import { stat } from "fs";
 
 export function initPlayPage() {
 	class PlayPage extends HTMLElement {
@@ -16,7 +18,6 @@ export function initPlayPage() {
 
 			div.innerHTML = `
       <div class="container">
-      <h2></h2>
         <component-grid></component-grid>
         <component-button>Volver a Jugar</component-button>
       </div>
@@ -45,10 +46,25 @@ export function initPlayPage() {
         width: 100vw;
         height: 100vh;
         z-index: 100;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
       }
 
       component-button{
       z-index: 200;
+      }
+
+      h2{
+        font-family: "Roboto", sans-serif;
+        width: 100%;
+        height: 3rem;
+        line-height: 3rem;
+        margin: 0 auto;
+        text-align: center;
+        background-color: #FF6347;
+        color: #fff;
       }
       `;
 
@@ -57,21 +73,33 @@ export function initPlayPage() {
 
 			/********************FUNCTIONS *************************/
 
+			state.initState();
+			let h2 = document.createElement("h2");
+			let endGame = document.createElement("div");
+
+			const renderAgain = () => {
+				endGame.classList.remove("end");
+				div.innerHTML = `
+         <div class="container">
+        <component-grid></component-grid>
+        <component-button>Volver a Jugar</component-button>
+      </div>
+        `;
+			};
+
 			const listenWin = () => {
 				let lastWin = state.lastWin;
 				if (lastWin === "xWin") {
-					let h2 = div.querySelector("h2");
 					h2.textContent = "La Equis ganó";
-					let endGame = document.createElement("div");
 					endGame.classList.add("end");
+					endGame.appendChild(h2);
 					div.appendChild(endGame);
 				}
 
 				if (lastWin === "circleWin") {
-					let h2 = div.querySelector("h2");
 					h2.textContent = "El Circulo ganó";
-					let endGame = document.createElement("div");
 					endGame.classList.add("end");
+					endGame.appendChild(h2);
 					div.appendChild(endGame);
 				}
 			};
@@ -80,8 +108,11 @@ export function initPlayPage() {
 				const $btn = div.querySelector("component-button");
 
 				$btn.addEventListener("click", (e) => {
-					location.reload();
-					Router.go("/tateti/");
+					state.resetState();
+					renderAgain();
+					listenWin();
+					playAgain();
+					Router.go("/tateti/configuracion");
 				});
 			};
 
